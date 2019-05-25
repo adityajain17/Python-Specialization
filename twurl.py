@@ -1,3 +1,5 @@
+import hidden
+import oauth
 def augment(url, parameters):
     secrets = hidden.oauth()
     consumer = oauth.OAuthConsumer(secrets['consumer_key'],
