@@ -1377,5 +1377,5 @@ c=1
 for te in countries:
     te["id"]=str(c)
     c=c+1
-    v=json.dumps(te)
-    print(v,end=',')
+    v=json.dumps(te,indent=4)
+    print(v,end=',\n')
