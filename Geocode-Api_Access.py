@@ -1,6 +1,7 @@
 import urllib.request, urllib.parse, urllib.error
 import json
-import ssl
+import ssl
+
 
 serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
 #serviceurl= 'http://py4e-data.dr-chuck.net/json?'
@@ -8,7 +9,6 @@ ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-api_key='AIzaSyBZJP8dHYW4hpXQdPhYVjcZCNBKY15_SPw'
 #api_key=42
 
 address = input('Enter location: ')
