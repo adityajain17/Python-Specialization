@@ -5,16 +5,19 @@ import time
 import ssl
 
 # Google API (requires API key)
-# serviceurl = "http://maps.googleapis.com/maps/api/geocode/json?"
+serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
+api_key='AIzaSyBZJP8dHYW4hpXQdPhYVjcZCNBKY15_SPw'
 # If you are in China this URL might work (with key):
 # serviceurl = "http://maps.google.cn/maps/api/geocode/json?"
 
-serviceurl = "http://python-data.dr-chuck.net/geojson?"
+#serviceurl = "http://python-data.dr-chuck.net/geojson?"
 
 
 # Deal with SSL certificate anomalies Python > 2.7
 # scontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-scontext = None
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 
 conn = sqlite3.connect('geodata.sqlite')
 cur = conn.cursor()
@@ -38,11 +41,14 @@ for line in fh:
         continue
     except:
         pass
-
+    
+    parms = dict()
+    parms['address'] = address
+    parms['key']=api_key
     print ('Resolving', address)
-    url = serviceurl + urllib.parse.urlencode({"sensor":"false", "address": address})
+    url = serviceurl + urllib.parse.urlencode(parms)
     print ('Retrieving', url)
-    uh = urllib.request.urlopen(url, context=scontext)
+    uh = urllib.request.urlopen(url, context=ctx)
     data = uh.read().decode()
     print ('Retrieved',len(data),'characters',data[:20].replace('\n',' '))
     count = count + 1
